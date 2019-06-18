@@ -1,4 +1,5 @@
 // Business Logic for AddressBook ---------
+// This is a global variable because it's declared at the 'top level' of our file. That is, it's not inside of a function or method, and is therefore available to the entire file (hence the name global variable). While we generally want to avoid working with global variables, we make an exception because we're using this global variable to mimic a database.
 function AddressBook() {
   this.contacts = [],
   this.currentId = 0
@@ -38,14 +39,39 @@ AddressBook.prototype.deleteContact = function(id) {
 }
 
 // Business Logic for Contacts ---------
-function Contact(firstName, lastName, phoneNumber) {
+function Contact(firstName, lastName, phoneNumber, email) {
   this.firstName = firstName,
   this.lastName = lastName,
-  this.phoneNumber = phoneNumber
+  this.phoneNumber = phoneNumber,
+  this.email = email
 }
 
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
+
+}
+
+function showContact(contactId) {
+  var contact = addressBook.findContact(contactId);
+  $("#show-contact").show();
+  $(".first-name").html(contact.firstName);
+  $(".last-name").html(contact.lastName);
+  $(".phone-number").html(contact.phoneNumber);
+  $(".email").html(contact.email);
+  var buttons = $("#buttons");
+  buttons.empty();
+  buttons.append("<button class='deleteButton' id=" +  + contact.id + ">Delete</button>");
+}
+
+function attachContactListeners() {
+  $("ul#contacts").on("click", "li", function() {
+  showContact(this.id);
+  $("#buttons").on("click", ".deleteButton", function() {
+   addressBook.deleteContact(this.id);
+   $("#show-contact").hide();
+   displayContactDetails(addressBook);
+  });
+});
 }
 
 // User Interface Logic ---------
@@ -55,19 +81,32 @@ function displayContactDetails(addressBookToDisplay) {
   var contactsList = $("ul#contacts");
   var htmlForContactInfo = "";
   addressBookToDisplay.contacts.forEach(function(contact) {
-    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + " " + contact.phoneNumber + "</li>";
+    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + " " + contact.phoneNumber + " " + contact.email +"</li>";
   });
   contactsList.html(htmlForContactInfo);
 };
+AddressBook.prototype.coolDude = 'sweet';
 
 $(document).ready(function() {
+  // We add a form submission event listener
+  attachContactListeners();
   $("form#new-contact").submit(function(event) {
     event.preventDefault();
+    // We gather user-provided form input from form fields for first name, last name, and phone number, and assign them to variables (inputtedFirstName, inputtedLastName, etc.)
     var inputtedFirstName = $("input#new-first-name").val();
     var inputtedLastName = $("input#new-last-name").val();
     var inputtedPhoneNumber = $("input#new-phone-number").val();
-    var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
+    var inputtedEmail = $("input#new-email").val();
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input#new-phone-number").val("");
+    $("input#new-email").val("");
+    // We create a new Contact object, passing in this gathered information as arguments.
+    var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmail);
+    // We add the newContact to our AddressBook using the addContact() method.
     addressBook.addContact(newContact);
+    // Finally, we log the list of Contacts in our AddressBook to the console, to double-check the new contact has been added. (We'll add logic for displaying contacts in our user interface in the next lesson.)
     displayContactDetails(addressBook);
+    console.log(addressBook.coolDude);
   })
-})
+});
