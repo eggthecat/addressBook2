@@ -77,10 +77,14 @@ function attachContactListeners() {
 // User Interface Logic ---------
 var addressBook = new AddressBook();
 
+// This method will display Contact info in the DOM; hence its name. It takes an AddressBook object as an argument.
 function displayContactDetails(addressBookToDisplay) {
+  // First we save our jQuery ul#contacts element in a variable called contactsList.
   var contactsList = $("ul#contacts");
   var htmlForContactInfo = "";
+  // Next we iterate through the Contacts saved in the AddressBook provided as an argument to displayContactDetails().
   addressBookToDisplay.contacts.forEach(function(contact) {
+    // We assign each Contact to a <li> with a dynamic id matching the Contact's id property.
     htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + " " + contact.phoneNumber + " " + contact.email +"</li>";
   });
   contactsList.html(htmlForContactInfo);
@@ -106,6 +110,7 @@ $(document).ready(function() {
     // We add the newContact to our AddressBook using the addContact() method.
     addressBook.addContact(newContact);
     // Finally, we log the list of Contacts in our AddressBook to the console, to double-check the new contact has been added. (We'll add logic for displaying contacts in our user interface in the next lesson.)
+    // Let's call this new method whenever we add a new Contact
     displayContactDetails(addressBook);
     console.log(addressBook.coolDude);
   })
