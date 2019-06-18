@@ -50,9 +50,10 @@ Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
 
 }
-
+// start by utilizing our findContact() method.
 function showContact(contactId) {
   var contact = addressBook.findContact(contactId);
+  // We show the hidden #show-contact content with the contact's full information.
   $("#show-contact").show();
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
@@ -64,7 +65,11 @@ function showContact(contactId) {
 }
 
 function attachContactListeners() {
+  // The first is the type of the event we're listening for. In our case, we want code to trigger when <li>s are clicked, but we could specify other events like hover or keyup as well.
+  // The second is the child element that should trigger this event listener. In this case, it's all <li>s inside ul#contacts
   $("ul#contacts").on("click", "li", function() {
+    // this refers to the li, which has a specific ID. In other words, we are passing a contact's unique ID into this function. Remember, we must pass the contact into the showContact() function; otherwise, it won't know which contact we are talking about.
+    // Now we can click on an <li> and see that contact's detail info appear in the DOM!
   showContact(this.id);
   $("#buttons").on("click", ".deleteButton", function() {
    addressBook.deleteContact(this.id);
@@ -101,6 +106,7 @@ $(document).ready(function() {
     var inputtedLastName = $("input#new-last-name").val();
     var inputtedPhoneNumber = $("input#new-phone-number").val();
     var inputtedEmail = $("input#new-email").val();
+    // Let's also make sure to empty out our form fields after submission:
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
