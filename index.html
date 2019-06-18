@@ -6,16 +6,29 @@
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/scripts.js"></script>
     <meta charset="utf-8">
-    <title>PageTile</title>
+  <title>Address Book</title>
   </head>
   <body>
-    <h1>Heading1</h1>
-    <form id="some-form">
-      <label for="some-input">Your input:</label>
-      <input id="some-input" type="text">
-
-      <button type="submit" class="btn">Submit!</button>
-      <div id="output">some default output</div>
+    <h1>Address Book</h1>
+    <h2>Add a Contact:</h2>
+    <form id="new-contact">
+      <label for="new-first-name">First Name</label>
+      <input type="text" id="new-first-name">
+      <label for="new-last-name">Last Name</label>
+      <input type="text" id="new-last-name">
+      <label for="new-phone-number">Phone Number</label>
+      <input type="text" id="new-phone-number">
+      <button type="submit">Add</button>
     </form>
+    <h2>Contacts:</h2>
+    <ul id="contacts">
+    </ul>
+    <div id="show-contact">
+      <p>First Name: <span class="first-name"></span></p>
+      <p>Last Name: <span class="last-name"></span></p>
+      <p>Phone Number: <span class="phone-number"></span></p>
+      <div id="buttons">
+      </div>
+    </div>
   </body>
 </html>
