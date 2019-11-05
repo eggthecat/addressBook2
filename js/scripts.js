@@ -1,5 +1,5 @@
 // Business Logic for AddressBook ---------
-// This is a global variable because it's declared at the 'top level' of our file. That is, it's not inside of a function or method, and is therefore available to the entire file (hence the name global variable). While we generally want to avoid working with global variables, we make an exception because we're using this global variable to mimic a database.
+
 function AddressBook() {
   this.contacts = [],
   this.currentId = 0
@@ -39,37 +39,46 @@ AddressBook.prototype.deleteContact = function(id) {
 }
 
 // Business Logic for Contacts ---------
-function Contact(firstName, lastName, phoneNumber, email) {
+function Contact(firstName, lastName, phoneNumber, email, street, city, zipCode, state, address) {
   this.firstName = firstName,
   this.lastName = lastName,
   this.phoneNumber = phoneNumber,
-  this.email = email
+  this.email = email,
+  this.street = street,
+  this.city = city,
+  this.zipCode = zipCode,
+  this.state = state
 }
+  // this.address = address
 
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
-
 }
-// start by utilizing our findContact() method.
+
+// Contact.prototype.address = function() {
+//   return this.street + ", " + this.city + ", " + this.state + " " + this.zipCode;
+// }
+
 function showContact(contactId) {
   var contact = addressBook.findContact(contactId);
-  // We show the hidden #show-contact content with the contact's full information.
+
   $("#show-contact").show();
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
   $(".email").html(contact.email);
+  $(".street").html(contact.street);
+  $(".city").html(contact.city);
+  $(".zipCode").html(contact.zipCode);
+  $(".state").html(contact.state);
+
   var buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=" +  + contact.id + ">Delete</button>");
 }
 
 function attachContactListeners() {
-  // The first is the type of the event we're listening for. In our case, we want code to trigger when <li>s are clicked, but we could specify other events like hover or keyup as well.
-  // The second is the child element that should trigger this event listener. In this case, it's all <li>s inside ul#contacts
   $("ul#contacts").on("click", "li", function() {
-    // this refers to the li, which has a specific ID. In other words, we are passing a contact's unique ID into this function. Remember, we must pass the contact into the showContact() function; otherwise, it won't know which contact we are talking about.
-    // Now we can click on an <li> and see that contact's detail info appear in the DOM!
   showContact(this.id);
   $("#buttons").on("click", ".deleteButton", function() {
    addressBook.deleteContact(this.id);
@@ -78,46 +87,54 @@ function attachContactListeners() {
   });
 });
 }
-
 // User Interface Logic ---------
 var addressBook = new AddressBook();
 
-// This method will display Contact info in the DOM; hence its name. It takes an AddressBook object as an argument.
+
 function displayContactDetails(addressBookToDisplay) {
-  // First we save our jQuery ul#contacts element in a variable called contactsList.
+
   var contactsList = $("ul#contacts");
   var htmlForContactInfo = "";
-  // Next we iterate through the Contacts saved in the AddressBook provided as an argument to displayContactDetails().
   addressBookToDisplay.contacts.forEach(function(contact) {
-    // We assign each Contact to a <li> with a dynamic id matching the Contact's id property.
-    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + " " + contact.phoneNumber + " " + contact.email +"</li>";
+
+    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "<br> " + contact.phoneNumber + "<br> " + contact.email + "<br> " + contact.street + ",  " + "<br>" + contact.city + ",  " + contact.state.toUpperCase() + " " + contact.zipCode + "</li>";
   });
   contactsList.html(htmlForContactInfo);
 };
-AddressBook.prototype.coolDude = 'sweet';
+
 
 $(document).ready(function() {
-  // We add a form submission event listener
+
   attachContactListeners();
   $("form#new-contact").submit(function(event) {
     event.preventDefault();
-    // We gather user-provided form input from form fields for first name, last name, and phone number, and assign them to variables (inputtedFirstName, inputtedLastName, etc.)
+
     var inputtedFirstName = $("input#new-first-name").val();
     var inputtedLastName = $("input#new-last-name").val();
     var inputtedPhoneNumber = $("input#new-phone-number").val();
     var inputtedEmail = $("input#new-email").val();
-    // Let's also make sure to empty out our form fields after submission:
+    var inputtedStreet = $("input#new-street").val();
+    var inputtedCity = $("input#new-city").val();
+    var inputtedZipCode = $("input#new-zipCode").val();
+    var inputtedState = $("input#new-state").val();
+    // var alternateAddress = $('input[]:checked').val();
+
+
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
     $("input#new-email").val("");
-    // We create a new Contact object, passing in this gathered information as arguments.
-    var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmail);
-    // We add the newContact to our AddressBook using the addContact() method.
+    $("input#new-street").val("");
+    $("input#new-city").val("");
+    $("input#new-zipCode").val("");
+    $("input#new-state").val("");
+
+    var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmail, inputtedStreet, inputtedCity, inputtedZipCode, inputtedState);
+
+
     addressBook.addContact(newContact);
-    // Finally, we log the list of Contacts in our AddressBook to the console, to double-check the new contact has been added. (We'll add logic for displaying contacts in our user interface in the next lesson.)
-    // Let's call this new method whenever we add a new Contact
+
     displayContactDetails(addressBook);
-    console.log(addressBook.coolDude);
+
   })
 });
