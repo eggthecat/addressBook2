@@ -10,3 +10,7 @@ body {
 #show-contact {
   display: none;
 }
+
+.addressInputDiv {
+  display: none;
+}

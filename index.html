@@ -26,21 +26,23 @@
       <input type="text" id="new-email">
       <br>
       <div class="addressType">
-        <label> Business <input type="radio" name="address" value="business"> </label>
-        <label> Personal <input type="radio" name="address" value="personal"> </label>
+        <label> Business <input type="radio" name="address" value="business" id="businessAddress"> </label>
+        <label> Personal <input type="radio" name="address" value="personal" id="personalAddress"> </label>
       </div>
-      <label for="new-street">Street address</label>
-      <input type="text"  class="address" id="new-street" >
-      <br>
-      <label for="new-city">City</label>
-      <input type="text"  class="address" id="new-city">
-      <br>
-      <label for="new-zipCode">Zip Code</label>
-      <input type="number" class="address" id="new-zipCode">
-      <br>
-      <label for="new-state">State</label>
-      <input type="text"  class="address" id="new-state">
-      <br>
+      <div class="addressInputDiv">
+        <label for="new-street">Street address</label>
+        <input type="text"  class="address" id="new-street" >
+        <br>
+        <label for="new-city">City</label>
+        <input type="text"  class="address" id="new-city">
+        <br>
+        <label for="new-zipCode">Zip Code</label>
+        <input type="number" class="address" id="new-zipCode">
+        <br>
+        <label for="new-state">State</label>
+        <input type="text"  class="address" id="new-state">
+        <br>
+      </div>
       <button type="submit">Add</button>
     </form>
 
@@ -54,7 +56,12 @@
       <p>Last Name: <span class="last-name"></span></p>
       <p>Phone Number: <span class="phone-number"></span></p>
       <p>Email: <span class="email"></span></p>
-      <p>Address: <span class="street"></span> , <span class="city"></span> , <span class="state"></span>, <span class="zipCode"></span> </p>
+      <div class="personalInput">
+        <p>Address: <span class="street"></span> , <span class="city"></span> , <span class="state"></span>, <span class="zipCode"></span> </p>
+      </div>
+      <div class="businessInput">
+        <p>Address: <span class="street"></span> , <span class="city"></span> , <span class="state"></span>, <span class="zipCode"></span> </p>
+      </div>
       <div id="buttons">
       </div>
     </div>

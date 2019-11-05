@@ -39,15 +39,15 @@ AddressBook.prototype.deleteContact = function(id) {
 }
 
 // Business Logic for Contacts ---------
-function Contact(firstName, lastName, phoneNumber, email, street, city, zipCode, state, address) {
+function Contact(firstName, lastName, phoneNumber, email, street, city, zipCode, state) {
   this.firstName = firstName,
   this.lastName = lastName,
   this.phoneNumber = phoneNumber,
   this.email = email,
   this.street = street,
   this.city = city,
-  this.zipCode = zipCode,
-  this.state = state
+  this.state = state,
+  this.zipCode = zipCode
 }
   // this.address = address
 
@@ -69,8 +69,8 @@ function showContact(contactId) {
   $(".email").html(contact.email);
   $(".street").html(contact.street);
   $(".city").html(contact.city);
-  $(".zipCode").html(contact.zipCode);
   $(".state").html(contact.state);
+  $(".zipCode").html(contact.zipCode);
 
   var buttons = $("#buttons");
   buttons.empty();
@@ -102,6 +102,14 @@ function displayContactDetails(addressBookToDisplay) {
   contactsList.html(htmlForContactInfo);
 };
 
+$(".addressType").on("click", function() {
+  if (businessRadio) {
+    $(".addressInputDiv").show();
+
+  }else if (personalRadio) {
+    $(".addressInputDiv").show();
+  };
+});
 
 $(document).ready(function() {
 
@@ -113,10 +121,16 @@ $(document).ready(function() {
     var inputtedLastName = $("input#new-last-name").val();
     var inputtedPhoneNumber = $("input#new-phone-number").val();
     var inputtedEmail = $("input#new-email").val();
+    var businessRadio = $("#businessAddress:checked").val();
+    var personalRadio = $("#personalAddress:checked").val();
     var inputtedStreet = $("input#new-street").val();
     var inputtedCity = $("input#new-city").val();
     var inputtedZipCode = $("input#new-zipCode").val();
     var inputtedState = $("input#new-state").val();
+
+    // $(".addressInputDiv").show(businessRadio);
+    // $("")
+
     // var alternateAddress = $('input[]:checked').val();
 
 
